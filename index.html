@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQA Triple Biology Paper 2 Masterclass</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Nunito', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary: #10b981; /* emerald-500 */
+            --primary-dark: #047857; /* emerald-700 */
+        }
+        body {
+            background-color: #f8fafc; /* slate-50 */
+            color: #334155; /* slate-700 */
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes streakPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3) rotate(10deg); filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5)); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-1deg); }
+            50% { transform: translateX(5px) rotate(1deg); }
+            75% { transform: translateX(-5px) rotate(-1deg); }
+        }
+        @keyframes pulse-record {
+            0%, 100% { color: #64748b; background-color: #f1f5f9; }
+            50% { color: #ef4444; background-color: #fee2e2; border-color: #fca5a5; }
+        }
+        @keyframes lockInZoom {
+            0% { transform: scale(0.5); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        .animate-streak-pop { animation: streakPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .animate-record { animation: pulse-record 1.5s infinite; color: #ef4444; }
+        .animate-lock-in { animation: lockInZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        
+        .streak-glow {
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+            border-color: rgba(16, 185, 129, 0.8);
+        }
+
+        /* Hide Scrollbar but keep functionality */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .tab-btn { transition: all 0.3s ease; }
+        .tab-btn.active {
+            border-bottom-width: 4px;
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            background-color: #ecfdf5; /* emerald-50 */
+        }
+        
+        .activity-content { display: none; }
+        .activity-content.active { display: block; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen overflow-hidden" id="main-body">
+
+    <!-- LOCKED IN OVERLAY -->
+    <div id="locked-in-overlay" class="fixed inset-0 bg-slate-900/95 z-[100] hidden items-center justify-center flex-col text-center backdrop-blur-md">
+        <div id="locked-in-content" class="scale-0 opacity-0 transition-all duration-500">
+            <i class="ph-duotone ph-lock-key text-[10rem] text-emerald-400 mb-4 drop-shadow-[0_0_30px_rgba(52,211,153,0.8)]"></i>
+            <h1 class="font-heading text-5xl md:text-7xl text-white tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]">LOCKED IN!</h1>
+            <p class="text-emerald-400 mt-4 text-xl md:text-2xl font-bold tracking-widest uppercase">Mastery Achieved</p>
+        </div>
+    </div>
+
+    <!-- SPLASH SCREEN (Main Menu - Compact Layout) -->
+    <div id="splash-screen" class="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center transition-opacity duration-700 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-50 via-white to-blue-50 p-2 overflow-hidden">
+        <div class="text-center flex flex-col items-center w-full max-w-4xl my-auto">
+            <div class="flex gap-2 mb-2">
+                <i class="ph-duotone ph-microscope text-4xl sm:text-5xl text-emerald-500"></i>
+                <i class="ph-duotone ph-dna text-4xl sm:text-5xl text-blue-500"></i>
+            </div>
+            <h1 class="font-heading text-2xl sm:text-4xl font-extrabold text-slate-800 tracking-tight mb-2 leading-tight">
+                AQA Triple Biology <span class="text-emerald-600 block sm:inline">Paper 2</span>
+            </h1>
+            <p class="text-emerald-700 text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-4 bg-emerald-100/50 px-3 py-1 rounded-full border border-emerald-200 shadow-sm">Created by Mr A Reeve | Higher Tier</p>
+            
+            <!-- Unit Selection Grid (Compact to fit on one screen) -->
+            <div class="w-full text-left px-2 max-w-3xl mx-auto">
+                <div class="flex items-center gap-2 mb-2"><i class="ph-bold ph-leaf text-blue-500 text-lg"></i> <h2 class="text-sm sm:text-base font-bold text-slate-700 border-b-2 border-blue-200 flex-grow pb-0.5">Triple Science Topics</h2></div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4" id="grid-paper2"></div>
+                
+                <div class="flex items-center gap-2 mb-2 mt-4"><i class="ph-bold ph-calculator text-amber-500 text-lg"></i> <h2 class="text-sm sm:text-base font-bold text-slate-700 border-b-2 border-amber-200 flex-grow pb-0.5">All Papers</h2></div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 flex-grow" id="grid-skills"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER & NAV -->
+    <header class="bg-white shadow-sm z-10 sticky top-0 border-b border-slate-200 hidden" id="app-header">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <button onclick="returnToMenu()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors shrink-0 flex items-center gap-2 font-bold shadow-sm border border-slate-200">
+                    <i class="ph-bold ph-arrow-left text-xl"></i> <span class="hidden sm:inline">Main Menu</span>
+                </button>
+                <div id="header-icon-container" class="bg-emerald-100 p-2 rounded-lg shrink-0"><i id="header-icon" class="ph-bold ph-microscope text-2xl text-emerald-600"></i></div>
+                <div class="truncate">
+                    <h1 id="header-unit-title" class="font-heading text-xl font-bold text-slate-800 leading-none truncate">Unit Title</h1>
+                    <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider truncate">AQA Triple Science <span class="text-slate-300 mx-1">|</span> <span class="text-emerald-600 font-bold">Created by Mr A Reeve</span></p>
+                </div>
+            </div>
+            
+            <!-- Dynamic Streak Counter -->
+            <div id="streak-banner" class="bg-slate-100 text-slate-700 font-bold px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-2 shrink-0 transition-all duration-300">
+                <span id="streak-emoji" class="text-2xl -my-2 drop-shadow-sm transition-transform duration-300">🦠</span>
+                <span class="text-sm tracking-wide uppercase font-semibold text-slate-500">Streak:</span>
+                <span id="streak-counter" class="text-xl font-black text-emerald-600">0</span>
+            </div>
+        </div>
+        
+        <!-- Horizontal Scrollable Activity Tabs -->
+        <div class="flex overflow-x-auto bg-white scrollbar-hide border-t border-slate-100 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.02)]">
+            <div class="max-w-7xl mx-auto w-full flex px-2" id="activity-tabs">
+                <!-- Tabs generated dynamically by JS based on unit type -->
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-5xl mx-auto w-full p-4 sm:p-6 pb-32 hidden relative" id="main-content">
+        
+        <!-- 1. Mix & Match -->
+        <div id="tab-match" class="activity-content animate-fade-in">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h3 class="font-heading text-2xl font-bold text-slate-800 flex items-center gap-2"><i class="ph-fill ph-arrows-merge text-emerald-500"></i> Terminology Match <span class="text-sm font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-200 ml-2">Round <span id="match-batch-label">1</span> of 2</span></h3>
+                        <p class="text-slate-500 text-sm mt-1">Tap a term, then tap its definition to link them.</p>
+                    </div>
+                    <span class="text-sm font-bold bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full shrink-0 flex items-center gap-2">
+                        <span><span id="match-score">0</span> / <span id="match-total">16</span> Matched</span>
+                        <button onclick="resetMatch()" class="bg-emerald-200 hover:bg-emerald-300 p-1.5 rounded-md transition-colors shadow-sm ml-2" title="Reset Match"><i class="ph-bold ph-arrows-clockwise text-emerald-800"></i></button>
+                    </span>
+                </div>
+                <div id="match-complete" class="hidden bg-emerald-50 border-2 border-emerald-500 text-emerald-700 p-8 rounded-xl text-center mb-6 shadow-sm">
+                    <i class="ph-fill ph-check-circle text-5xl mb-2"></i>
+                    <h4 class="font-heading text-2xl font-bold">Perfect Match!</h4>
+                    <p class="font-medium">You have mastered the vocabulary for this unit.</p>
+                </div>
+                <div id="match-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-3" id="match-questions"></div>
+                    <div class="space-y-3" id="match-answers"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. MCQ Engine -->
+        <div id="tab-mcq" class="activity-content animate-fade-in">
+            <div class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-700 text-white max-w-3xl mx-auto">
+                <div class="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-700 pb-4">
+                    <div>
+                        <h3 class="font-heading text-2xl font-bold flex items-center gap-2"><i class="ph-fill ph-list-checks text-blue-400"></i> Concept Quiz</h3>
+                        <p class="text-slate-400 text-sm mt-1" id="mcq-subtitle">Incorrect answers return to the queue.</p>
+                    </div>
+                    <div class="text-left sm:text-right shrink-0">
+                        <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Mastery Progress</div>
+                        <div class="text-3xl font-black text-blue-400 mt-1" id="mcq-progress">0 / 0</div>
+                    </div>
+                </div>
+                
+                <div id="mcq-complete" class="hidden text-center py-10">
+                    <i class="ph-duotone ph-trophy text-7xl text-amber-400 mb-4 animate-bounce"></i>
+                    <h4 class="font-heading text-3xl font-bold text-white mb-2">100% Mastery Achieved</h4>
+                    <p class="text-slate-300">You successfully answered all concepts in this unit.</p>
+                </div>
+                
+                <!-- RETRY SCREEN -->
+                <div id="mcq-retry-screen" class="hidden text-center py-10">
+                    <i class="ph-duotone ph-arrow-counter-clockwise text-7xl text-amber-400 mb-4"></i>
+                    <h4 class="font-heading text-3xl font-bold text-white mb-2">Review Required</h4>
+                    <p class="text-slate-300 mb-6">You have <span id="mcq-retry-count" class="font-bold text-white text-xl">0</span> incorrect answers to review.</p>
+                    <button onclick="startMCQRetry()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-xl shadow-md transition-colors inline-flex items-center gap-2">
+                        <i class="ph-bold ph-arrows-clockwise text-xl"></i> Retry Wrong Answers
+                    </button>
+                </div>
+                
+                <div id="mcq-container">
+                    <h4 class="text-lg sm:text-xl font-medium mb-8 leading-relaxed text-slate-100" id="mcq-question">Loading...</h4>
+                    <div class="space-y-4" id="mcq-options"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Long Answers -->
+        <div id="tab-long" class="activity-content animate-fade-in">
+            <div class="mb-6 border-b border-slate-200 pb-4">
+                <h3 class="font-heading text-2xl font-bold text-slate-800 flex items-center gap-2"><i class="ph-fill ph-pen-nib text-amber-500"></i> The Book of Knowledge</h3>
+                <p class="text-slate-500 text-sm mt-1">Type or dictate your answers. Mark yourself honestly against the perfect model to secure your score.</p>
+            </div>
+            <div id="long-list" class="space-y-8"></div>
+        </div>
+
+        <!-- 4. Maths Skills -->
+        <div id="tab-maths" class="activity-content animate-fade-in">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-4xl mx-auto">
+                <div class="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h3 class="font-heading text-2xl font-bold text-slate-800 flex items-center gap-2"><i class="ph-fill ph-calculator text-blue-500"></i> Applied Skills</h3>
+                        <p class="text-slate-500 text-sm mt-1">Calculate the answers. Numbers only.</p>
+                    </div>
+                    <div class="text-3xl font-black text-blue-600 bg-blue-50 px-5 py-2 rounded-xl border border-blue-200 shrink-0"><span id="maths-score">0</span> / 10</div>
+                </div>
+                <div id="maths-list" class="space-y-6"></div>
+            </div>
+        </div>
+
+        <!-- 5. Dashboard / Report Gen -->
+        <div id="tab-report" class="activity-content animate-fade-in">
+            <div class="max-w-3xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-200 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+                    <i id="dash-bg-icon" class="ph-fill ph-medal text-[15rem]"></i>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-8 border-b border-slate-100 pb-8 relative z-10">
+                    <div class="text-center md:text-left">
+                        <h3 class="font-heading text-3xl font-bold text-slate-800 mb-2">Unit Mastery</h3>
+                        <div class="text-6xl font-black text-emerald-600" id="dash-percentage">0%</div>
+                        <p class="text-slate-500 font-medium mt-2 max-w-sm" id="dash-feedback">Complete all activities in this unit to uncover your fate.</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 relative z-10" id="dash-standard-stats">
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 flex flex-col justify-between">
+                        <div class="text-sm font-bold text-slate-500 uppercase flex items-center gap-2"><i class="ph-fill ph-arrows-merge text-emerald-500 text-lg"></i> Match Up</div>
+                        <div class="mt-3 flex items-end justify-between">
+                            <div class="text-4xl font-black text-slate-800"><span id="dash-score-match">0</span> <span class="text-xl text-slate-400 font-medium" id="dash-total-match">/ 8</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 flex flex-col justify-between">
+                        <div class="text-sm font-bold text-slate-500 uppercase flex items-center gap-2"><i class="ph-fill ph-list-checks text-blue-500 text-lg"></i> Quiz Mastery</div>
+                        <div class="mt-3 flex items-end justify-between">
+                            <div class="text-4xl font-black text-slate-800"><span id="dash-score-mcq">0</span> <span class="text-xl text-slate-400 font-medium" id="dash-total-mcq">/ 40</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 flex flex-col justify-between sm:col-span-2">
+                        <div class="text-sm font-bold text-slate-500 uppercase flex items-center gap-2"><i class="ph-fill ph-pen-nib text-amber-500 text-lg"></i> The Book of Knowledge (Total)</div>
+                        <div class="mt-3 flex items-end justify-between">
+                            <div class="text-4xl font-black text-slate-800"><span id="dash-score-long">0</span> <span class="text-xl text-slate-400 font-medium" id="dash-total-long">/ 24</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 gap-4 mb-10 relative z-10 hidden" id="dash-maths-stats">
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 flex flex-col justify-between">
+                        <div class="text-sm font-bold text-slate-500 uppercase flex items-center gap-2"><i class="ph-fill ph-calculator text-blue-500 text-lg"></i> Applied Maths Skills</div>
+                        <div class="mt-3 flex items-end justify-between">
+                            <div class="text-4xl font-black text-slate-800"><span id="dash-score-maths">0</span> <span class="text-xl text-slate-400 font-medium">/ 20</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="handleReportClick()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold uppercase tracking-widest py-4 rounded-xl shadow-lg transition-transform transform hover:-translate-y-1 text-lg flex justify-center items-center gap-3 relative z-10">
+                    <i class="ph-bold ph-files text-2xl"></i> Generate Official Report
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast-message" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full shadow-lg z-[70] flex items-center gap-3 transition-opacity duration-300 opacity-0 pointer-events-none">
+        <i id="toast-icon" class="ph-fill ph-info text-xl"></i>
+        <span id="toast-text" class="font-medium">Message</span>
+    </div>
+
+    <!-- NAME ENTRY MODAL -->
+    <div id="name-modal" class="fixed inset-0 bg-slate-900/60 z-[60] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl max-w-sm w-full shadow-2xl relative border-t-8 border-blue-600 animate-fade-in">
+            <h2 class="font-heading text-2xl font-bold text-slate-800 mb-2">Student Verification</h2>
+            <p class="text-slate-500 font-medium mb-6 text-sm">Enter your name for the official report.</p>
+            <input type="text" id="student-name-input" class="w-full p-3 border-2 rounded-xl outline-none transition-colors border-slate-300 focus:border-blue-500 mb-6 bg-slate-50 font-medium text-slate-800" placeholder="e.g. Jane Doe">
+            <div class="flex justify-end gap-3">
+                <button onclick="closeNameModal()" class="px-5 py-2.5 text-slate-500 hover:bg-slate-100 rounded-xl transition-colors font-medium">Cancel</button>
+                <button onclick="saveNameAndShowScorecard()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors font-bold shadow-md flex items-center gap-2">Generate <i class="ph-bold ph-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCORECARD MODAL -->
+    <div id="scorecard-modal" class="fixed inset-0 bg-slate-900/80 z-[60] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl max-w-md w-full shadow-2xl relative border-t-8 border-emerald-500 max-h-[95vh] overflow-y-auto animate-fade-in">
+            <button onclick="closeScorecard()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
+                <i class="ph-fill ph-x-circle text-3xl"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="ph-bold ph-check-fat text-3xl text-emerald-600"></i>
+                </div>
+                <h2 class="font-heading text-2xl font-bold text-slate-800">Unit Completion Report</h2>
+                <p class="text-slate-500 font-semibold mt-1 uppercase tracking-wider text-xs">AQA Triple Biology Paper 2</p>
+            </div>
+            
+            <div class="space-y-4 mb-8 text-sm sm:text-base bg-slate-50 p-5 rounded-xl border border-slate-200">
+                <div class="flex justify-between border-b border-slate-200 pb-3">
+                    <span class="text-slate-500 font-bold uppercase tracking-wider text-xs flex items-center gap-2"><i class="ph-fill ph-student text-lg"></i> Student</span>
+                    <span class="font-bold text-slate-800" id="sc-name"></span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 py-3">
+                    <span class="text-slate-500 font-bold uppercase tracking-wider text-xs flex items-center gap-2"><i class="ph-fill ph-books text-lg"></i> Unit</span>
+                    <span class="font-bold text-slate-800" id="sc-unit"></span>
+                </div>
+                
+                <div id="sc-standard-stats">
+                    <div class="flex justify-between py-2">
+                        <span class="text-slate-600 font-medium">1. Match Up</span>
+                        <span class="font-bold text-slate-800"><span id="sc-match">0</span> <span class="text-slate-400" id="sc-total-match-display">/ 8</span></span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-200 pb-3">
+                        <span class="text-slate-600 font-medium">2. Quiz</span>
+                        <span class="font-bold text-slate-800"><span id="sc-mcq">0</span> <span class="text-slate-400">/ <span id="sc-total-mcq">0</span></span></span>
+                    </div>
+                    <div class="flex justify-between pt-3">
+                        <span class="text-slate-600 font-medium">3. Long Answers</span>
+                        <span class="font-bold text-slate-800"><span id="sc-long">0</span> <span class="text-slate-400">/ <span id="sc-total-long">0</span></span></span>
+                    </div>
+                </div>
+
+                <div id="sc-maths-stats" class="hidden">
+                    <div class="flex justify-between py-2">
+                        <span class="text-slate-600 font-medium">Maths Skills</span>
+                        <span class="font-bold text-slate-800"><span id="sc-maths">0</span> <span class="text-slate-400">/ 20</span></span>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between pt-6 mt-2 border-t-2 border-slate-200 text-lg items-center">
+                    <span class="font-heading font-bold text-slate-800">Total Score:</span>
+                    <div class="text-right">
+                        <div class="font-black text-emerald-600 text-2xl"><span id="sc-total">0</span> <span class="text-lg text-slate-400">/ <span id="sc-max">0</span></span></div>
+                        <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1"><span id="sc-percent">0</span>% Mastery</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center text-xs text-slate-400 font-medium">
+                <p>Generated by AQA Masterclass <span class="text-slate-300 mx-1">&bull;</span> Created by Mr A Reeve</p>
+                <p class="mt-1" id="sc-timestamp"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION LOGIC & DATA -->
+    <script>
+        /** 
+         * ==========================================
+         * DATA STRUCTURE
+         * ==========================================
+         */
+        const APP_DATA = {
+            t1: { // Homeostasis: Nerves
+                id: 't1', title: "Homeostasis: Nerves", icon: "ph-brain", emoji: "🧠", type: "standard",
+                match: [
+                    {q:"Cerebral Cortex", a:"Highly folded outer layer responsible for consciousness, memory, and language."},
+                    {q:"Cerebellum", a:"Controls muscle coordination, balance, and fine movement."},
+                    {q:"Medulla", a:"Controls unconscious activities like heartbeat and breathing."},
+                    {q:"MRI Scans", a:"Uses magnetic fields to image brain activity safely without radiation."},
+                    {q:"Accommodation", a:"The process of changing the shape of the lens to focus on near or distant objects."},
+                    {q:"Myopia", a:"Short-sightedness; eyeball is too long or lens too thick. Corrected with a concave lens."},
+                    {q:"Hyperopia", a:"Long-sightedness; eyeball is too short. Corrected with a convex lens."},
+                    {q:"Suspensory Ligaments", a:"Fibers that connect the ciliary muscles to the lens."},
+                    {q:"Thermoregulatory Centre", a:"Area in the hypothalamus containing receptors sensitive to blood temperature."},
+                    {q:"Vasodilation", a:"Blood vessels supplying skin capillaries dilate, increasing heat loss by radiation."},
+                    {q:"Vasoconstriction", a:"Blood vessels supplying skin capillaries constrict, reducing blood flow and heat loss."},
+                    {q:"Shivering", a:"Rapid muscle contractions requiring respiration, transferring heat energy to the body."},
+                    {q:"Retina", a:"Layer at the back of the eye containing light-sensitive receptor cells."},
+                    {q:"Optic Nerve", a:"Carries electrical impulses from the retina to the brain."},
+                    {q:"Radial Muscles", a:"Contract to dilate the pupil in dim light."},
+                    {q:"Circular Muscles", a:"Contract to constrict the pupil in bright light."}
+                ],
+                mcq: [
+                    { q: "Which part of the brain is responsible for controlling unconscious activities like breathing?", options: ["Medulla", "Cerebellum", "Cerebral Cortex", "Hypothalamus"], ans: 0 },
+                    { q: "How is myopia (short-sightedness) corrected?", options: ["Concave lens to diverge light", "Convex lens to converge light", "Laser surgery to thicken the cornea", "It cannot be corrected"], ans: 0 },
+                    { q: "What happens to the eye when focusing on a NEAR object?", options: ["Ciliary muscles contract, suspensory ligaments loosen, lens thickens", "Ciliary muscles relax, suspensory ligaments pull tight, lens thins", "Ciliary muscles contract, lens thins", "Pupil constricts to let less light in"], ans: 0 },
+                    { q: "Why is treating brain damage extremely difficult?", options: ["The brain is highly delicate, complex, and neurons do not easily regenerate", "MRI scans cannot detect brain damage", "The skull cannot be opened surgically", "Drugs act too quickly on the brain"], ans: 0 },
+                    { q: "During vasodilation, what exactly happens?", options: ["Arterioles supplying skin capillaries dilate to increase blood flow near surface", "Capillaries move closer to the skin surface", "Veins dilate to store more blood", "Blood vessels constrict to keep heat deep in the body"], ans: 0 },
+                    { q: "Which structure controls the amount of light entering the eye?", options: ["Lens", "Cornea", "Iris", "Retina"], ans: 2 },
+                    { q: "Which muscles contract to constrict the pupil in bright light?", options: ["Radial muscles", "Circular muscles", "Ciliary muscles", "Extraocular muscles"], ans: 1 },
+                    { q: "What is the function of the sclera?", options: ["To refract light", "To protect the eye as a tough outer layer", "To carry impulses to the brain", "To detect color"], ans: 1 },
+                    { q: "What happens during shivering to warm the body?", options: ["Exothermic respiration in muscles transfers heat", "Fat is burned directly", "Friction from bones warms the blood", "Sweat evaporates"], ans: 0 },
+                    { q: "Which part of the brain contains the thermoregulatory centre?", options: ["Medulla", "Cerebral cortex", "Hypothalamus", "Pituitary gland"], ans: 2 },
+                    { q: "How does the skin respond to a decrease in core body temperature?", options: ["Vasoconstriction reduces blood flow to skin capillaries", "Vasodilation increases blood flow to skin capillaries", "Sweat glands increase production", "Hair erector muscles relax"], ans: 0 },
+                    { q: "What is the role of the suspensory ligaments when focusing on a distant object?", options: ["They are pulled tight as ciliary muscles relax", "They slacken as ciliary muscles contract", "They contract to pull the lens", "They produce aqueous humour"], ans: 0 },
+                    { q: "Which region of the brain is responsible for memory, language, and intelligence?", options: ["Cerebral cortex", "Cerebellum", "Medulla", "Brain stem"], ans: 0 },
+                    { q: "Why is a convex lens used to treat hyperopia?", options: ["It converges light rays before they enter the eye so they focus on the retina", "It diverges light rays so they focus further back", "It flattens the cornea", "It changes the shape of the natural lens"], ans: 0 },
+                    { q: "What type of signal is transmitted across a synapse?", options: ["A chemical neurotransmitter diffuses across the gap", "An electrical spark jumps the gap", "A hormone is pumped across by active transport", "A magnetic field carries the impulse"], ans: 0 },
+                    { q: "In a reflex arc, where does the relay neurone usually transmit the impulse?", options: ["From a sensory neurone to a motor neurone within the CNS", "From a receptor to a sensory neurone", "From the brain to the spinal cord", "From a motor neurone to the effector"], ans: 0 },
+                    { q: "Which statement accurately describes the MRI scanning technique?", options: ["It uses strong magnetic fields and radio waves to map active brain regions", "It uses radioactive tracers to image the brain", "It uses high-energy X-rays to see through the skull", "It involves inserting microscopic cameras into the brain"], ans: 0 },
+                    { q: "How do receptor cells in the retina transmit visual information?", options: ["They convert light stimuli into electrical impulses", "They reflect light back out of the eye", "They release hormones into the bloodstream", "They physically move closer to the optic nerve"], ans: 0 },
+                    { q: "What is the effector in the pupil reflex when exposed to bright light?", options: ["The circular muscles of the iris", "The optic nerve", "The ciliary muscles", "The retina"], ans: 0 },
+                    { q: "Why might shivering not immediately restore normal body temperature in extreme cold?", options: ["Exothermic respiration transfers heat, but heat loss may still exceed heat production", "Shivering uses up all the body's glucose instantly", "Shivering is an endothermic process that cools the body", "Muscles do not respire when they are cold"], ans: 0 }
+                ],
+                long: [
+                    { q: "Explain how the human eye accommodates to focus on a near object. (4 marks)", model: "1. Ciliary muscles contract.\n2. Suspensory ligaments loosen (slacken).\n3. The lens becomes thicker and more curved.\n4. This refracts light rays more strongly to focus them on the retina.", maxMarks: 4 },
+                    { q: "Describe how the brain maps different regions without cutting into it. (3 marks)", model: "1. Studying patients with specific localized brain damage.\n2. Electrically stimulating different parts of the brain.\n3. Using MRI scans to monitor brain activity during specific tasks.", maxMarks: 3 },
+                    { q: "Explain the antagonistic action of the iris in bright light. (3 marks)", model: "1. The circular muscles in the iris contract.\n2. The radial muscles relax.\n3. The pupil constricts, allowing less light in to protect the retina from damage.", maxMarks: 3 },
+                    { q: "Explain how vasodilation helps cool the body down. (3 marks)", model: "1. Blood vessels (arterioles) supplying the skin capillaries dilate (widen).\n2. More blood flows closer to the surface of the skin.\n3. More heat energy is lost to the environment by radiation.", maxMarks: 3 },
+                    { q: "Compare myopia and hyperopia, including their causes. (4 marks)", model: "1. Myopia is short-sightedness; hyperopia is long-sightedness.\n2. Myopia occurs if the eyeball is too long or the lens is too thick (light focuses in front of retina).\n3. Hyperopia occurs if the eyeball is too short or the lens is too thin (light focuses behind retina).", maxMarks: 4 },
+                    { q: "Explain the role of the thermoregulatory centre. (3 marks)", model: "1. Located in the brain (hypothalamus).\n2. Contains receptors sensitive to the temperature of blood flowing through the brain.\n3. Receives nervous impulses from temperature receptors in the skin.", maxMarks: 3 },
+                    { q: "Why might a doctor hesitate to perform surgery on a deep brain tumor? (3 marks)", model: "1. The brain is highly complex and delicate.\n2. Surgery carries a high risk of accidental damage to healthy tissue.\n3. Damage could cause permanent loss of function, such as paralysis or memory loss.", maxMarks: 3 },
+                    { q: "Describe the mechanism of shivering. (3 marks)", model: "1. Skeletal muscles contract rapidly and automatically.\n2. These contractions require energy from increased aerobic respiration.\n3. Respiration is an exothermic reaction, transferring heat energy to warm the body.", maxMarks: 3 },
+                    { q: "Explain how sweating reduces body temperature. (2 marks)", model: "1. Sweat glands release sweat onto the skin surface.\n2. The water in sweat evaporates, taking heat energy away from the skin.", maxMarks: 2 },
+                    { q: "Trace the pathway of a light stimulus from the eye to the brain. (3 marks)", model: "1. Light hits receptor cells (rods and cones) on the retina.\n2. Receptors generate an electrical impulse.\n3. The impulse travels down the sensory neurone in the optic nerve to the brain.", maxMarks: 3 }
+                ]
+            },
+            t2: { // Homeostasis: Hormones
+                id: 't2', title: "Homeostasis: Hormones", icon: "ph-drop", emoji: "🩸", type: "standard",
+                match: [
+                    {q:"Deamination", a:"Liver process removing amino groups from excess amino acids to form ammonia."},
+                    {q:"Urea", a:"Safe excretory product formed in the liver from toxic ammonia."},
+                    {q:"Ultrafiltration", a:"High pressure forces water, urea, ions, and glucose out of blood into the Bowman's capsule."},
+                    {q:"Selective Reabsorption", a:"All glucose, some ions, and necessary water are actively transported back into the blood."},
+                    {q:"ADH", a:"Hormone from pituitary gland that increases kidney tubule permeability to water."},
+                    {q:"Dialysis", a:"Machine filtering blood using a partially permeable membrane and dialysis fluid."},
+                    {q:"Auxin", a:"Plant hormone controlling growth near tips of shoots and roots (phototropism/gravitropism)."},
+                    {q:"Gibberellins", a:"Plant hormone initiating seed germination and promoting flowering/stem growth."},
+                    {q:"Ethene", a:"Gas that controls cell division and ripening of fruits."},
+                    {q:"Negative Feedback (ADH)", a:"If blood is too concentrated, more ADH is released so more water is reabsorbed."},
+                    {q:"FSH", a:"Causes egg maturation in ovary; stimulates ovaries to produce oestrogen."},
+                    {q:"LH", a:"Stimulates the release of the egg (ovulation) at day 14."},
+                    {q:"Oestrogen", a:"Builds uterus lining; inhibits FSH, stimulates LH."},
+                    {q:"Progesterone", a:"Maintains uterus lining; inhibits both FSH and LH."},
+                    {q:"Glucagon", a:"Released by pancreas when blood glucose is low; converts glycogen back to glucose."},
+                    {q:"Glycogen", a:"Storage form of glucose in the liver and muscles."}
+                ],
+                mcq: [
+                    { q: "What happens to excess amino acids in the body?", options: ["Deaminated in the liver to form ammonia, then converted to urea", "Stored in the kidneys as proteins", "Exhaled through the lungs as nitrogen gas", "Converted directly into urine in the bladder"], ans: 0 },
+                    { q: "How does ADH work when you are dehydrated?", options: ["Pituitary releases more ADH, kidney tubules become more permeable, less urine produced", "Pituitary releases less ADH, kidney tubules become less permeable, more urine produced", "Liver releases ADH to break down urea", "Kidneys release ADH to absorb more salt"], ans: 0 },
+                    { q: "Why doesn't dialysis fluid contain urea?", options: ["To ensure a steep concentration gradient so urea diffuses out of the blood", "Because urea would react with the machine", "To push urea from the fluid into the blood", "To keep the fluid sterile"], ans: 0 },
+                    { q: "How do auxins cause phototropism in shoots?", options: ["Auxins accumulate on the shaded side, causing those cells to elongate more", "Auxins accumulate on the light side, causing cells to shrink", "Auxins travel to the root to prevent growth", "Auxins act as a nutrient for sunlight absorption"], ans: 0 },
+                    { q: "What is the commercial use of Ethene in agriculture?", options: ["To control the ripening of fruit during transport", "To kill broad-leaved weeds", "To initiate seed germination in winter", "To produce seedless fruits"], ans: 0 },
+                    { q: "What does the liver convert highly toxic ammonia into?", options: ["Urea", "Urine", "Amino acids", "Glucagon"], ans: 0 },
+                    { q: "Which substance is completely reabsorbed back into the blood by the kidneys?", options: ["Urea", "Water", "Glucose", "Sodium ions"], ans: 2 },
+                    { q: "How do Gibberellins aid in agriculture?", options: ["Killing weeds", "Controlling ripening", "Ending seed dormancy to speed up germination", "Growing deeper roots"], ans: 2 },
+                    { q: "What is the effect of ADH on the kidney tubules?", options: ["Makes them less permeable to water", "Makes them more permeable to water", "Stops ultrafiltration", "Secretes glucose into urine"], ans: 1 },
+                    { q: "In a plant root, how does auxin affect growth?", options: ["It stimulates cell elongation", "It inhibits cell elongation", "It turns the root green", "It produces seeds"], ans: 1 },
+                    { q: "What is the primary metabolic role of thyroxine in the body?", options: ["It stimulates the basal metabolic rate and plays a crucial role in growth", "It lowers blood sugar levels", "It regulates the water balance in the kidneys", "It initiates the 'fight or flight' response"], ans: 0 },
+                    { q: "How does the pancreas respond to high blood glucose levels?", options: ["It secretes insulin, causing glucose to move into cells", "It secretes glucagon, converting glycogen to glucose", "It releases ADH into the bloodstream", "It stops producing digestive enzymes"], ans: 0 },
+                    { q: "Which hormone stimulates the release of an egg (ovulation) at day 14?", options: ["Luteinising Hormone (LH)", "Follicle Stimulating Hormone (FSH)", "Oestrogen", "Progesterone"], ans: 0 },
+                    { q: "How does adrenaline prepare the body for 'fight or flight'?", options: ["It increases heart rate and boosts delivery of oxygen and glucose to muscles", "It slows down respiration to conserve energy", "It promotes the storage of glycogen in the liver", "It causes pupils to constrict"], ans: 0 },
+                    { q: "In IVF, why are mothers given artificial FSH and LH?", options: ["To stimulate the maturation of multiple eggs for laboratory collection", "To stop the menstrual cycle entirely", "To prevent premature ovulation", "To thicken the lining of the uterus instantly"], ans: 0 },
+                    { q: "What drives the ultrafiltration of blood in the Bowman's capsule?", options: ["The high pressure of blood entering the kidney capillaries", "Active transport of large proteins", "Osmosis driven by ADH", "The contraction of the bladder"], ans: 0 },
+                    { q: "Why do plants growing in a window bend towards the light?", options: ["Auxin redistributes to the shaded side, promoting greater cell elongation there", "They need to physically touch the glass", "Sunlight destroys all auxins in the plant", "The lit side grows faster due to photosynthesis"], ans: 0 },
+                    { q: "What is a key disadvantage of a kidney transplant compared to dialysis?", options: ["The recipient must take immunosuppressant drugs for life to prevent rejection", "It requires the patient to visit the hospital 3 times a week forever", "It strictly limits what the patient can eat and drink", "It is only a temporary fix that lasts a few weeks"], ans: 0 },
+                    { q: "What happens to the permeability of the kidney tubules when ADH is released?", options: ["They become more permeable, allowing more water to be reabsorbed", "They become less permeable, causing more water to be lost in urine", "They become permeable to urea", "They stop selectively reabsorbing glucose"], ans: 0 },
+                    { q: "Why is the breakdown of excess amino acids necessary?", options: ["They cannot be stored, and deamination produces toxic ammonia requiring conversion to urea", "They block the arteries if left in the blood", "They prevent the kidneys from filtering blood", "They cause excessive muscle growth"], ans: 0 }
+                ],
+                long: [
+                    { q: "Describe the process of deamination and urea formation. (3 marks)", model: "1. Excess amino acids cannot be stored in the body.\n2. In the liver, the amine group is removed (deamination) to form toxic ammonia.\n3. The ammonia is immediately converted into urea, which is safer for excretion by the kidneys.", maxMarks: 3 },
+                    { q: "Explain how the kidneys produce urine through ultrafiltration and selective reabsorption. (4 marks)", model: "1. Blood enters the kidney under high pressure, forcing water, ions, glucose, and urea out into the tubule (ultrafiltration).\n2. Large molecules like proteins and blood cells remain in the blood.\n3. All glucose is selectively reabsorbed back into the blood by active transport.\n4. Necessary amounts of water and ions are reabsorbed, leaving urea and excess water/ions as urine.", maxMarks: 4 },
+                    { q: "Explain the negative feedback loop of ADH when a person drinks too much water. (4 marks)", model: "1. Blood water concentration increases (becomes too dilute).\n2. Receptors in the brain detect this, and the pituitary gland releases LESS ADH.\n3. The kidney tubules become LESS permeable to water.\n4. Less water is reabsorbed into the blood, producing a large volume of dilute urine.", maxMarks: 4 },
+                    { q: "Evaluate the use of dialysis versus a kidney transplant. (4 marks)", model: "1. Dialysis requires strict diets and frequent, time-consuming hospital visits, but is available immediately.\n2. Transplants offer a normal lifestyle and are cheaper long-term.\n3. However, transplants require a tissue match and carry a risk of rejection.\n4. Transplant patients must take immunosuppressant drugs for life.", maxMarks: 4 },
+                    { q: "Explain how auxins cause a plant root to grow downwards (gravitropism). (3 marks)", model: "1. Gravity causes auxins to accumulate on the lower side of the root.\n2. In roots, a high concentration of auxin INHIBITS cell elongation.\n3. The upper side grows faster than the lower side, bending the root downwards.", maxMarks: 3 },
+                    { q: "Describe three commercial uses of plant hormones. (3 marks)", model: "1. Auxins are used in rooting powders and as selective weed killers.\n2. Ethene is used to control the ripening of fruit during transport and storage.\n3. Gibberellins are used to promote flowering, increase fruit size, and initiate seed germination.", maxMarks: 3 },
+                    { q: "Explain the interaction between FSH and Oestrogen. (3 marks)", model: "1. FSH is released by the pituitary and causes an egg to mature.\n2. FSH stimulates the ovaries to produce oestrogen.\n3. Rising oestrogen levels then inhibit the release of further FSH (negative feedback).", maxMarks: 3 },
+                    { q: "What is the specific role of Glucagon? (3 marks)", model: "1. Secreted by the pancreas when blood glucose levels fall too low.\n2. It travels to the liver and muscles.\n3. It causes the breakdown of stored glycogen back into glucose, which enters the blood.", maxMarks: 3 },
+                    { q: "Why is active transport necessary in the kidney? (2 marks)", model: "1. To reabsorb ALL glucose back into the blood.\n2. This requires energy because it moves glucose against its concentration gradient.", maxMarks: 2 },
+                    { q: "How do IVF treatments utilize hormones? (3 marks)", model: "1. The mother is given artificial FSH and LH.\n2. This stimulates the maturation and release of multiple eggs at once.\n3. The eggs can then be collected for laboratory fertilization.", maxMarks: 3 }
+                ]
+            },
+            t3: { // Inheritance & Evolution
+                id: 't3', title: "Inheritance & Evolution", icon: "ph-dna", emoji: "🧬", type: "standard",
+                match: [
+                    {q:"Nucleotide", a:"Monomer of DNA consisting of a sugar, a phosphate group, and one of four bases."},
+                    {q:"Base Pairs", a:"A pairs with T, and C pairs with G."},
+                    {q:"Triplet Code", a:"A sequence of 3 bases codes for one specific amino acid."},
+                    {q:"Transcription", a:"Process where the DNA code is copied into mRNA in the nucleus."},
+                    {q:"Translation", a:"Process where ribosomes read mRNA and carrier molecules bring amino acids to form a protein."},
+                    {q:"Non-coding DNA", a:"Parts of DNA that do not code for proteins but can switch genes on or off."},
+                    {q:"Mutation", a:"A random change in the DNA base sequence, potentially altering the protein structure."},
+                    {q:"Adult Cell Cloning", a:"Removing an unfertilised egg's nucleus, inserting an adult body cell nucleus, and stimulating with electricity."},
+                    {q:"Tissue Culture", a:"Using small groups of plant cells to grow identical new plants in vitro (cloning)."},
+                    {q:"Speciation", a:"Formation of a new species when two populations become so distinct they can no longer interbreed."},
+                    {q:"Alfred Russel Wallace", a:"Co-authored the theory of evolution by natural selection and pioneered work on speciation."},
+                    {q:"Geographical Isolation", a:"When a physical barrier separates a population, driving speciation."},
+                    {q:"Gregor Mendel", a:"Monk who discovered the foundation of genetics through breeding pea plants."},
+                    {q:"Allele", a:"Different versions of the same gene (e.g., blue eyes vs brown eyes)."},
+                    {q:"Heterozygous", a:"Having two different alleles for a trait (e.g., Bb)."},
+                    {q:"Phenotype", a:"The physical expression of the genotype (what the organism looks like)."}
+                ],
+                mcq: [
+                    { q: "What is the exact structure of a DNA nucleotide?", options: ["A common sugar, a phosphate group, and one of four bases attached to the sugar", "An amino acid attached to a protein chain", "A base pair connected by hydrogen bonds", "A ribose sugar and a uracil base"], ans: 0 },
+                    { q: "During protein synthesis, what is the role of carrier molecules (tRNA)?", options: ["They bring specific amino acids to the ribosome in the correct order", "They copy the DNA inside the nucleus", "They unzip the DNA double helix", "They break down proteins into amino acids"], ans: 0 },
+                    { q: "How might a mutation in coding DNA affect an enzyme?", options: ["It changes the amino acid sequence, altering the folding and shape of the active site so the substrate no longer fits", "It causes the enzyme to work faster", "It switches the gene off entirely", "It turns the enzyme into a carbohydrate"], ans: 0 },
+                    { q: "What was the first step in creating Dolly the Sheep (Adult Cell Cloning)?", options: ["The nucleus was removed from an unfertilised egg cell", "A sperm and egg were fertilized in a lab", "An embryo was split into multiple pieces", "A sheep was given growth hormones"], ans: 0 },
+                    { q: "What determines if two populations have become separate species?", options: ["They can no longer interbreed to produce fertile offspring", "They look slightly different", "They live in different countries", "One population goes extinct"], ans: 0 },
+                    { q: "Which part of protein synthesis occurs in the nucleus?", options: ["Translation", "Transcription", "Meiosis", "Active Transport"], ans: 1 },
+                    { q: "What is the role of non-coding DNA?", options: ["It does nothing", "It controls gene expression by switching genes on or off", "It codes for lipids", "It forms the cell membrane"], ans: 1 },
+                    { q: "Who independently proposed the theory of evolution by natural selection alongside Darwin?", options: ["Gregor Mendel", "Carl Linnaeus", "Alfred Russel Wallace", "Isaac Newton"], ans: 2 },
+                    { q: "How does geographical isolation lead to speciation?", options: ["It forces animals to swim", "Different environments select for different advantageous alleles", "It causes immediate mutations", "It kills the entire population"], ans: 1 },
+                    { q: "What did Gregor Mendel breed to discover the basics of inheritance?", options: ["Fruit flies", "Mice", "Pea plants", "Sheep"], ans: 2 },
+                    { q: "What is meant by the 'triplet code' in protein synthesis?", options: ["A sequence of three DNA bases codes for one specific amino acid", "Three proteins fold together to make an enzyme", "DNA has three strands wrapped in a helix", "Every gene contains exactly three bases"], ans: 0 },
+                    { q: "How does mRNA differ from DNA in the context of transcription?", options: ["mRNA is a single-stranded copy of a gene that can leave the nucleus", "mRNA is double-stranded and stays in the nucleus", "mRNA contains deoxyribose instead of ribose", "mRNA is built from amino acids"], ans: 0 },
+                    { q: "What brings specific amino acids to the ribosomes during translation?", options: ["Carrier molecules (tRNA)", "mRNA molecules", "Enzymes", "Red blood cells"], ans: 0 },
+                    { q: "Why did most scientists initially reject Darwin's theory of natural selection?", options: ["The mechanism of inheritance and genetics was not yet known", "There was no fossil evidence at all", "He did not travel to the Galapagos", "Alfred Russel Wallace proved him wrong"], ans: 0 },
+                    { q: "What causes a new species to form via speciation?", options: ["Two populations become so phenotypically different they can no longer interbreed to produce fertile offspring", "A single mutation occurs in an individual", "Animals choose to mate with different species", "Organisms migrate to a slightly warmer climate"], ans: 0 },
+                    { q: "What is the main cause of the rapid emergence of antibiotic-resistant bacteria like MRSA?", options: ["Random mutations provide resistance, and natural selection favors these bacteria when antibiotics are overused", "Bacteria choose to adapt to survive the drugs", "Antibiotics cause the mutations directly", "Hospitals are too clean"], ans: 0 },
+                    { q: "How is tissue culture used in modern agriculture?", options: ["To clone rare plant species rapidly and preserve biodiversity", "To breed animals with desired traits", "To genetically modify bacteria", "To destroy invasive weeds"], ans: 0 },
+                    { q: "What did Gregor Mendel conclude from his pea plant breeding experiments?", options: ["Characteristics are determined by inherited 'units' that do not blend", "Traits are blended together in the offspring", "DNA is a double helix", "Acquired characteristics can be inherited"], ans: 0 },
+                    { q: "Which statement best describes a heterozygous genotype?", options: ["The organism possesses two different alleles for a specific gene", "The organism possesses two identical alleles for a specific gene", "The organism lacks alleles for a trait", "The trait is only expressed in females"], ans: 0 },
+                    { q: "What is the impact of a mutation in non-coding DNA?", options: ["It can alter gene expression, turning specific genes on or off inappropriately", "It always changes the shape of the enzyme", "It prevents the organism from growing", "It changes the triplet code directly"], ans: 0 }
+                ],
+                long: [
+                    { q: "Describe the structure of DNA. (3 marks)", model: "1. DNA is a polymer made up of two strands forming a double helix.\n2. It is made of repeating monomer units called nucleotides.\n3. Each nucleotide consists of a sugar, a phosphate, and a base (A, T, C, or G).", maxMarks: 3 },
+                    { q: "Explain how DNA controls the synthesis of a protein. (4 marks)", model: "1. A sequence of three DNA bases (a triplet) codes for one specific amino acid.\n2. The DNA sequence is copied into a template (mRNA) which leaves the nucleus.\n3. The mRNA binds to a ribosome in the cytoplasm.\n4. Carrier molecules bring specific amino acids to the ribosome in the correct order to build the protein chain.", maxMarks: 4 },
+                    { q: "Explain how a mutation could stop an enzyme from working. (4 marks)", model: "1. A mutation changes the sequence of bases in the DNA.\n2. This changes the sequence of amino acids in the protein.\n3. The protein folds differently, changing the specific shape of the enzyme's active site.\n4. The substrate can no longer bind to the active site (it is no longer complementary).", maxMarks: 4 },
+                    { q: "Describe the steps of Adult Cell Cloning. (4 marks)", model: "1. The nucleus is removed from an unfertilised egg cell.\n2. The nucleus from an adult body cell (e.g., skin cell) is inserted into the empty egg cell.\n3. A mild electric shock stimulates the egg cell to divide to form an embryo.\n4. The embryo is inserted into the womb of a surrogate mother.", maxMarks: 4 },
+                    { q: "Explain how a new species can evolve through geographical isolation (Speciation). (4 marks)", model: "1. Two populations of a species become separated by a geographical barrier (e.g., a river).\n2. The environments on each side are different, so different alleles are advantageous.\n3. Natural selection occurs differently in each population.\n4. Over time, their DNA changes so much they can no longer interbreed to produce fertile offspring.", maxMarks: 4 },
+                    { q: "What is the function of non-coding DNA? (2 marks)", model: "1. It does not code for proteins.\n2. It controls gene expression by switching genes on or off.", maxMarks: 2 },
+                    { q: "Why was Gregor Mendel's work not accepted immediately? (3 marks)", model: "1. When he published his work, chromosomes and DNA had not yet been discovered.\n2. Scientists did not understand the mechanism of inheritance.\n3. He was a monk, not part of the traditional scientific establishment.", maxMarks: 3 },
+                    { q: "Describe how embryo transplants are used to clone animals. (3 marks)", model: "1. A high-quality egg and sperm are fertilized in a lab.\n2. The resulting early embryo is split into multiple identical cells before they specialize.\n3. These identical cloned embryos are implanted into host mothers.", maxMarks: 3 },
+                    { q: "Explain the importance of understanding the human genome. (3 marks)", model: "1. Allows us to search for genes linked to specific types of disease.\n2. Helps in understanding and treating inherited disorders.\n3. Traces early human migration patterns.", maxMarks: 3 },
+                    { q: "What did Alfred Russel Wallace contribute to evolutionary biology? (3 marks)", model: "1. He independently proposed the theory of evolution by natural selection.\n2. He co-published papers with Charles Darwin.\n3. He did pioneering research on warning coloration and speciation.", maxMarks: 3 }
+                ]
+            },
+            t4: { // Ecology
+                id: 't4', title: "Ecology", icon: "ph-tree", emoji: "🌲", type: "standard",
+                match: [
+                    {q:"Biomass", a:"The dry mass of living material in an organism/trophic level."},
+                    {q:"Trophic Level 1", a:"Always producers (plants/algae) that make their own food via photosynthesis."},
+                    {q:"Trophic Level 4", a:"Tertiary consumers (apex predators) with no natural predators."},
+                    {q:"Loss of Biomass", a:"Energy/mass lost via faeces, urea, respiration, and maintaining body temperature."},
+                    {q:"Food Security", a:"Having enough food to feed a population safely and nutritiously."},
+                    {q:"Mycoprotein", a:"Protein-rich food suitable for vegetarians, made from the fungus Fusarium."},
+                    {q:"Fusarium", a:"Fungus grown in aerobic vats on glucose syrup to produce mycoprotein."},
+                    {q:"Intensive Farming", a:"Restricting livestock movement and controlling temperature to maximize biomass yield."},
+                    {q:"Decay Practical", a:"Using lipase to break down fat in milk; phenolphthalein indicator turns from pink to colourless as pH drops."},
+                    {q:"Indicator Species", a:"Organisms whose presence or absence reflects the level of pollution (e.g., lichen for sulfur dioxide)."},
+                    {q:"Biogas Generator", a:"Anaerobic decay of organic waste to produce methane gas for fuel."},
+                    {q:"Sustainable Fisheries", a:"Using strict quotas and large mesh nets to prevent overfishing."},
+                    {q:"Biodiversity", a:"The variety of all the different species of organisms on earth or within an ecosystem."},
+                    {q:"Global Warming", a:"Increase in temperature causing habitat loss, extreme weather, and migration changes."},
+                    {q:"Peat Bogs", a:"Carbon stores destroyed for compost; burning them releases massive amounts of CO2."},
+                    {q:"Deforestation", a:"Clearing forests for cattle, rice fields, or biofuels, reducing biodiversity."}
+                ],
+                mcq: [
+                    { q: "Why is only about 10% of biomass transferred to the next trophic level?", options: ["Biomass is lost as faeces, urea, and through respiration for movement/heat", "Predators cannot eat the whole organism", "The food chain is too short", "Producers use up all the biomass"], ans: 0 },
+                    { q: "How is mycoprotein produced?", options: ["The fungus Fusarium is grown on glucose syrup in aerobic conditions", "Genetically modified cows", "Yeast respiring anaerobically", "Extracting proteins directly from soil"], ans: 0 },
+                    { q: "In the decay practical, why does the phenolphthalein turn colourless?", options: ["Lipase breaks down lipids into fatty acids, which lowers the pH (makes it acidic)", "The milk spoils and creates alkaline gas", "The temperature gets too high", "Sodium carbonate evaporates"], ans: 0 },
+                    { q: "Which of these is a direct biological threat to food security?", options: ["New pests and pathogens affecting crops", "Building more sustainable greenhouses", "Decreasing birth rates", "Using larger mesh nets for fishing"], ans: 0 },
+                    { q: "Why does intensive farming increase biomass efficiency?", options: ["Restricting movement and heating pens reduces energy lost through respiration and thermoregulation", "The animals are fed less food", "It increases the rate of photosynthesis", "The animals mutate to grow faster"], ans: 0 },
+                    { q: "What conditions are required for a biogas generator to operate efficiently?", options: ["Aerobic and freezing", "Anaerobic and warm", "Aerobic and hot", "Anaerobic and cold"], ans: 1 },
+                    { q: "What is an indicator species?", options: ["An organism that glows in the dark", "An organism whose presence/absence indicates pollution levels", "A predator that hunts at night", "A plant with bright flowers"], ans: 1 },
+                    { q: "Why are peat bogs destroyed?", options: ["To find gold", "To produce cheap garden compost and fuel", "To build houses in the swamp", "To kill mosquitoes"], ans: 1 },
+                    { q: "How do larger mesh nets improve sustainable fishing?", options: ["They catch more fish at once", "They allow small, young fish to escape and breed", "They break less easily", "They are cheaper to make"], ans: 1 },
+                    { q: "What is the main consequence of fertilizer runoff into lakes (eutrophication)?", options: ["Fish grow faster", "Algal blooms block light, plants die, and decay uses up oxygen", "The water becomes highly acidic", "The water evaporates quicker"], ans: 1 },
+                    { q: "Which piece of equipment is essential for producing mycoprotein using Fusarium?", options: ["A temperature-controlled, aerobic industrial fermenter", "An anaerobic biogas generator", "A large open field", "A sealed vacuum chamber"], ans: 0 },
+                    { q: "What causes the phenolphthalein indicator to turn colourless in the decay practical?", options: ["The production of fatty acids from lipid breakdown lowers the pH", "The milk absorbs oxygen from the air", "Lipase neutralises the sodium carbonate", "The temperature exceeds 60 degrees Celsius"], ans: 0 },
+                    { q: "How does intensive farming increase the efficiency of agricultural food production?", options: ["It restricts livestock movement and controls temperature to minimize energy lost to respiration", "It allows animals to roam freely to build more muscle", "It feeds animals on a purely organic diet", "It increases the amount of heat lost to the environment"], ans: 0 },
+                    { q: "Why are peat bogs considered critical for combating climate change?", options: ["They act as massive carbon sinks; their destruction releases huge amounts of stored carbon dioxide", "They reflect sunlight away from the earth", "They absorb methane gas from the atmosphere", "They grow trees faster than forests"], ans: 0 },
+                    { q: "What is the primary purpose of imposing fishing quotas?", options: ["To prevent overfishing and maintain breeding populations at sustainable levels", "To make fish more expensive to buy", "To ensure every fisherman catches exactly the same amount", "To encourage the growth of invasive species"], ans: 0 },
+                    { q: "How does eutrophication ultimately kill fish in a lake?", options: ["Algal blooms block light, aquatic plants die, and decomposing bacteria deplete the oxygen via respiration", "The fertilizer is directly toxic to the fish gills", "It causes the water to freeze over", "It introduces new apex predators to the lake"], ans: 0 },
+                    { q: "Which gas is predominantly produced by a well-functioning biogas generator?", options: ["Methane", "Carbon dioxide", "Oxygen", "Nitrogen"], ans: 0 },
+                    { q: "What do pyramids of biomass represent that pyramids of numbers do not?", options: ["The actual dry mass of living material at each trophic level", "The exact count of individual organisms", "The amount of energy absorbed from the sun", "The speed at which the animals grow"], ans: 0 },
+                    { q: "Why do food chains rarely have more than five trophic levels?", options: ["Massive biomass and energy losses at each stage cannot support higher-level predators", "Animals at the top get too large to hunt", "Producers run out of sunlight", "There are not enough different species in the world"], ans: 0 },
+                    { q: "Which of these is a biological indicator of clean, unpolluted water?", options: ["Stonefly nymphs", "Bloodworms", "Sludge worms", "Lichens"], ans: 0 }
+                ],
+                long: [
+                    { q: "Explain why food chains rarely have more than four or five trophic levels. (3 marks)", model: "1. Only about 10% of biomass is transferred between each trophic level.\n2. Biomass is lost through faeces, urea, and respiration for heat/movement.\n3. By the 4th or 5th level, there is not enough biomass/energy left to support another breeding population.", maxMarks: 3 },
+                    { q: "Describe how mycoprotein is produced on a commercial scale. (4 marks)", model: "1. The fungus Fusarium is grown in large industrial fermenters.\n2. It is supplied with glucose syrup as a food source.\n3. Aerobic conditions (oxygen) are maintained for aerobic respiration.\n4. The fungal biomass is harvested, purified, and shaped.", maxMarks: 4 },
+                    { q: "Explain how intensive farming of livestock increases the efficiency of biomass transfer. (4 marks)", model: "1. Animals are kept in small pens, restricting their movement.\n2. The environment is temperature-controlled (kept warm).\n3. Therefore, less energy is wasted via respiration for muscle contraction or maintaining body temperature.\n4. More of the food eaten is converted directly into biomass (meat).", maxMarks: 4 },
+                    { q: "Describe the required practical to investigate the effect of temperature on the rate of decay of fresh milk. (4 marks)", model: "1. Add sodium carbonate and phenolphthalein indicator to milk (it turns pink due to high pH).\n2. Place the tube in a water bath at a specific temperature.\n3. Add the enzyme lipase and start a stopwatch.\n4. Time how long it takes for the solution to turn colourless (as fatty acids lower the pH).", maxMarks: 4 },
+                    { q: "Explain how the destruction of peat bogs affects the environment. (3 marks)", model: "1. Peat bogs are massive carbon stores (carbon sinks).\n2. They are destroyed to make cheap garden compost.\n3. As peat decays or is burned, massive amounts of carbon dioxide are released, contributing to global warming.", maxMarks: 3 },
+                    { q: "List four biological factors threatening human food security. (4 marks)", model: "1. Increasing birth rates and population.\n2. Changing diets in developed nations demanding scarce foods.\n3. New pests and pathogens affecting crop yields.\n4. Environmental changes like widespread droughts.", maxMarks: 4 },
+                    { q: "How can fish stocks be conserved sustainably? (2 marks)", model: "1. Imposing strict fishing quotas.\n2. Using nets with larger mesh sizes so young fish can escape and breed.", maxMarks: 2 },
+                    { q: "What conditions are required for a biogas generator to work optimally? (3 marks)", model: "1. Anaerobic conditions (no oxygen) for anaerobic decay.\n2. A constant warm temperature (usually ~30°C) for enzyme activity.\n3. A supply of organic waste (plant material/manure).", maxMarks: 3 },
+                    { q: "Explain the role of indicator species in measuring pollution. (2 marks)", model: "1. Organisms whose survival depends on specific environmental conditions.\n2. For example, some lichens cannot survive in high sulfur dioxide air pollution.", maxMarks: 2 },
+                    { q: "Why is maintaining high biodiversity critical for ecosystems? (2 marks)", model: "1. It reduces the dependence of one species on another for food and shelter.\n2. This creates more stable, resilient ecosystems capable of surviving changes.", maxMarks: 2 }
+                ]
+            },
+            maths: {
+                id: 'maths', title: 'Applied Maths Skills', icon: 'ph-calculator', emoji: '🧮', type: 'maths',
+                questions: [
+                    { q: 'A plant\'s biomass increases from 14g to 22g. Calculate the percentage increase. (Round to 1 decimal place)', a: '57.1', hint: 'Percentage Change = (Difference ÷ Original) × 100', working: 'Change = 22 - 14 = 8\n% Increase = (8 ÷ 14) × 100 = 57.14...\nRounded = 57.1%' },
+                    { q: 'Trophic Level 1 has 5000kg of biomass. Level 2 has 450kg. Calculate the percentage efficiency of biomass transfer.', a: '9', hint: 'Efficiency = (Biomass transferred to next level ÷ Biomass at previous level) × 100', working: 'Efficiency = (450 ÷ 5000) × 100\n= 0.09 × 100 = 9%' },
+                    { q: 'A bacterial cell has a diameter of 2.5 µm. Convert this to mm.', a: '0.0025', hint: 'Divide micrometres by 1000 to get millimetres.', working: '1 mm = 1000 µm\n2.5 ÷ 1000 = 0.0025 mm' },
+                    { q: 'A student counts daisies in five 1m² quadrats: 4, 7, 2, 6, 6. Calculate the mean.', a: '5', hint: 'Add all values, then divide by the number of quadrats.', working: 'Total = 4 + 7 + 2 + 6 + 6 = 25\nMean = 25 ÷ 5 quadrats = 5 daisies per m²' },
+                    { q: 'The mean number of daisies is 5 per m². The total field area is 400m². Estimate the total population.', a: '2000', hint: 'Multiply the mean per quadrat by the total area.', working: 'Total population = mean per m² × total area\n= 5 × 400 = 2000 daisies' },
+                    { q: 'Convert 0.0034 into standard form (Format answer as 3.4e-X).', a: '3.4e-3', hint: 'Format as X.X e-Y (e.g., 5.0e-2).', working: 'Move the decimal point 3 places to the right.\n0.0034 = 3.4 × 10^-3' },
+                    { q: 'An image of a cell measures 40mm. The actual cell is 0.08mm. Calculate the magnification.', a: '500', hint: 'Magnification = Image size ÷ Actual size', working: 'Magnification = Image Size ÷ Actual Size\n= 40 ÷ 0.08 = 500' },
+                    { q: 'A patient\'s blood glucose drops from 5.4 mmol/L to 3.9 mmol/L. Calculate the percentage decrease to 1 decimal place.', a: '27.8', hint: 'Percentage Change = (Difference ÷ Original) × 100', working: 'Change = 5.4 - 3.9 = 1.5\n% Decrease = (1.5 ÷ 5.4) × 100 = 27.77...\nRounded = 27.8%' },
+                    { q: 'Calculate the surface area of a 4cm cube.', a: '96', hint: 'Find area of one face (length x width), then multiply by 6.', working: 'Area of one face = 4 × 4 = 16 cm²\nCube has 6 faces: 16 × 6 = 96 cm²' },
+                    { q: 'Calculate the volume of a 4cm cube.', a: '64', hint: 'Volume = length × width × height', working: 'Volume = length × width × height\n= 4 × 4 × 4 = 64 cm³' },
+                    { q: 'Using the SA and Volume from above, what is the value of X in the SA:V ratio (format X:1)?', a: '1.5', hint: 'SA:V ratio = Surface Area ÷ Volume', working: 'SA = 96, V = 64\nRatio = 96:64. Divide by 64 = 1.5:1. So X is 1.5.' },
+                    { q: 'A zone of inhibition has a radius of 12 mm. Calculate the area (Use π = 3.14).', a: '452.16', hint: 'Area of a circle = πr²', working: 'Area = πr²\n= 3.14 x 12²\n= 3.14 x 144 = 452.16 mm²' },
+                    { q: 'An enzyme reaction produces 45cm³ of gas in 3 minutes. Calculate the rate of reaction in cm³/min.', a: '15', hint: 'Rate = Volume ÷ Time', working: 'Rate = Volume ÷ Time\n= 45 ÷ 3 = 15 cm³/min' },
+                    { q: 'Write 8,200,000 in standard form (e.g. 8.2x10^6 - enter just the number part before x10^6).', a: '8.2', hint: 'Count how many places the decimal moves to get a number between 1 and 10.', working: 'Decimal point moves 6 places left. Number part is 8.2.' },
+                    { q: 'A population of bacteria doubles every 30 minutes. If you start with 10, how many will there be after 2 hours?', a: '160', hint: 'How many 30-minute periods in 2 hours? Double the population that many times.', working: '2 hours = 120 mins. Number of divisions = 120/30 = 4.\nStart: 10. After 30m: 20. 60m: 40. 90m: 80. 120m: 160.' },
+                    { q: 'A microscope field of view is 3 mm wide. 6 cells fit across it. Calculate the width of one cell in mm.', a: '0.5', hint: 'Width = Total field of view ÷ Number of cells', working: 'Width = Total width ÷ Number of cells\n= 3 ÷ 6 = 0.5 mm' },
+                    { q: 'Calculate the percentage decrease if a population of birds drops from 500 to 350.', a: '30', hint: '% Decrease = (Change ÷ Original) × 100', working: 'Change = 500 - 350 = 150\n% Decrease = (Change ÷ Original) x 100\n= (150 ÷ 500) x 100 = 30%' },
+                    { q: 'A person loses 600ml of water through sweat, 400ml in breath, and 1200ml in urine. Total loss?', a: '2200', hint: 'Add up all the sources of water loss.', working: 'Total = 600 + 400 + 1200 = 2200 ml' },
+                    { q: 'Calculate the BMI of a person who weighs 80kg and is 1.8m tall. (BMI = mass / height²). Round to 1 decimal place.', a: '24.7', hint: 'BMI = mass (kg) ÷ height² (m²)', working: 'Height² = 1.8 x 1.8 = 3.24\nBMI = 80 ÷ 3.24 = 24.69... Rounds to 24.7.' },
+                    { q: 'A cell cycle takes 20 hours. The cell spends 10% of this time in mitosis. How many hours is it in mitosis?', a: '2', hint: '10% is (10 ÷ 100). Multiply this by the total time.', working: '(10 ÷ 100) x 20 = 2 hours' }
+                ]
+            }
+        };
+
+        const TAB_ORDER = ['t1', 't2', 't3', 't4', 'maths'];
+
+        /** 
+         * ==========================================
+         * STATE MANAGEMENT
+         * ==========================================
+         */
+        let currentUnitId = null;
+        let currentActivity = null;
+        let currentStreak = 0;
+        let activeDictationId = null;
+        let dictationRecognition = null;
+        
+        let state = {};
+        
+        function triggerLockedInOverlay() {
+            const overlay = document.getElementById('locked-in-overlay');
+            const content = document.getElementById('locked-in-content');
+            
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            
+            setTimeout(() => {
+                content.classList.remove('scale-0', 'opacity-0');
+                content.classList.add('animate-lock-in');
+            }, 50);
+
+            setTimeout(() => {
+                content.classList.remove('animate-lock-in');
+                content.classList.add('scale-0', 'opacity-0');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    overlay.classList.remove('flex');
+                }, 500); 
+            }, 3000);
+        }
+
+        function initState() {
+            TAB_ORDER.forEach(id => {
+                const unitData = APP_DATA[id];
+                if (unitData.type === 'standard') {
+                    // Randomize question order AND option order to ensure answers are entirely random
+                    const randomizedMCQ = shuffleArray([...unitData.mcq]).map(q => {
+                        const correctOptionText = q.options[q.ans];
+                        const shuffledOptions = shuffleArray([...q.options]);
+                        return { ...q, options: shuffledOptions, ans: shuffledOptions.indexOf(correctOptionText) };
+                    });
+
+                    state[id] = {
+                        matchBatchIndex: 0,
+                        matchCompleted: [],
+                        mcqQueue: randomizedMCQ,
+                        mcqRetryQueue: [],
+                        mcqTotal: unitData.mcq.length,
+                        mcqCorrect: 0,
+                        mcqActiveQuestion: null,
+                        longScores: {},
+                        longAnswersText: {},
+                        longActiveIdx: 0
+                    };
+                    state[id].matchQs = shuffleArray([...unitData.match].map((m,i)=>({t:m.q, i})));
+                    state[id].matchAs = shuffleArray([...unitData.match].map((m,i)=>({t:m.a, i})));
+                    state[id].matchSelQ = null;
+                    state[id].matchSelA = null;
+                } else if (unitData.type === 'maths') {
+                    state[id] = { correct: 0, answers: {}, submitted: {} };
+                }
+            });
+            renderSplashMenu();
+        }
+
+        /** 
+         * ==========================================
+         * UTILITIES & UI
+         * ==========================================
+         */
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function showToast(msg, icon = 'ph-info') {
+            const toast = document.getElementById('toast-message');
+            document.getElementById('toast-text').innerText = msg;
+            document.getElementById('toast-icon').className = `ph-fill ${icon} text-xl`;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => { toast.classList.add('opacity-0'); }, 3000);
+        }
+
+        function updateStreakUI(isCorrect) {
+            const banner = document.getElementById('streak-banner');
+            const counter = document.getElementById('streak-counter');
+            
+            if (isCorrect) {
+                currentStreak++;
+                banner.classList.add('streak-glow', 'bg-emerald-50');
+                banner.classList.remove('animate-streak-pop');
+                void banner.offsetWidth; // trigger reflow
+                banner.classList.add('animate-streak-pop');
+                counter.innerText = currentStreak;
+            } else {
+                currentStreak = 0;
+                counter.innerText = currentStreak;
+                banner.classList.remove('streak-glow', 'bg-emerald-50');
+                banner.classList.add('animate-shake');
+                setTimeout(() => banner.classList.remove('animate-shake'), 400);
+            }
+        }
+
+        /** 
+         * ==========================================
+         * NAVIGATION & ROUTING
+         * ==========================================
+         */
+        function renderSplashMenu() {
+            const gridP1 = document.getElementById('grid-paper1');
+            const gridP2 = document.getElementById('grid-paper2');
+            const gridSkills = document.getElementById('grid-skills');
+            
+            if (gridP1) gridP1.innerHTML = '';
+            if (gridP2) gridP2.innerHTML = '';
+            if (gridSkills) gridSkills.innerHTML = '';
+            
+            TAB_ORDER.forEach(id => {
+                const d = APP_DATA[id];
+                const btn = document.createElement('button');
+                btn.className = "bg-white p-2 rounded-xl shadow-sm border border-slate-200 hover:border-emerald-400 hover:shadow-md transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center text-center gap-1 h-full w-full";
+                btn.onclick = () => openUnit(id);
+                btn.innerHTML = `
+                    <div class="text-3xl sm:text-4xl drop-shadow-sm">${d.emoji}</div>
+                    <div class="font-heading font-bold text-slate-800 text-xs sm:text-sm leading-tight">${d.title}</div>
+                `;
+                
+                if (['t1', 't2', 't3', 't4'].includes(id)) {
+                    if (gridP2) gridP2.appendChild(btn);
+                } else {
+                    if (gridSkills) gridSkills.appendChild(btn);
+                }
+            });
+        }
+
+        function openUnit(id) {
+            currentUnitId = id;
+            const data = APP_DATA[id];
+            
+            document.getElementById('splash-screen').classList.add('hidden');
+            document.getElementById('app-header').classList.remove('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            document.getElementById('main-body').classList.remove('overflow-hidden');
+            
+            document.getElementById('streak-emoji').innerText = data.emoji;
+            document.getElementById('header-icon').className = `ph-bold ${data.icon} text-2xl text-emerald-600`;
+            document.getElementById('header-unit-title').innerText = data.title;
+            
+            renderActivityNav();
+            
+            if (data.type === 'standard') switchActivity('match');
+            else switchActivity('maths');
+        }
+
+        function returnToMenu() {
+            document.getElementById('splash-screen').classList.remove('hidden');
+            document.getElementById('app-header').classList.add('hidden');
+            document.getElementById('main-content').classList.add('hidden');
+            document.getElementById('main-body').classList.add('overflow-hidden');
+        }
+
+        function renderActivityNav() {
+            const nav = document.getElementById('activity-tabs');
+            nav.innerHTML = '';
+            const type = APP_DATA[currentUnitId].type;
+            
+            let tabs = [];
+            if (type === 'standard') {
+                tabs = [
+                    { id: 'match', label: '1. Terminology', icon: 'ph-arrows-merge' },
+                    { id: 'mcq', label: '2. Quiz', icon: 'ph-list-checks' },
+                    { id: 'long', label: '3. Long Answers', icon: 'ph-pen-nib' },
+                    { id: 'report', label: 'Dashboard', icon: 'ph-chart-bar' }
+                ];
+            } else {
+                tabs = [
+                    { id: 'maths', label: 'Applied Skills', icon: 'ph-calculator' },
+                    { id: 'report', label: 'Dashboard', icon: 'ph-chart-bar' }
+                ];
+            }
+            
+            tabs.forEach(t => {
+                const btn = document.createElement('button');
+                btn.id = `nav-btn-${t.id}`;
+                btn.className = `tab-btn flex flex-col items-center justify-center px-4 py-3 min-w-[120px] border-b-4 text-sm font-semibold transition-colors border-transparent text-slate-500 hover:bg-slate-50`;
+                btn.onclick = () => switchActivity(t.id);
+                btn.innerHTML = `<i class="ph-duotone ${t.icon} text-2xl mb-1"></i> <span class="whitespace-nowrap">${t.label}</span>`;
+                nav.appendChild(btn);
+            });
+        }
+
+        function switchActivity(actId) {
+            currentActivity = actId;
+            const data = APP_DATA[currentUnitId];
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-emerald-500', 'text-emerald-700', 'bg-emerald-50');
+                btn.classList.add('border-transparent', 'text-slate-500');
+            });
+            const activeBtn = document.getElementById(`nav-btn-${actId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent', 'text-slate-500');
+                activeBtn.classList.add('active', 'border-emerald-500', 'text-emerald-700', 'bg-emerald-50');
+            }
+            
+            document.querySelectorAll('.activity-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${actId}`).classList.add('active');
+
+            if (actId === 'match') renderMatch();
+            else if (actId === 'mcq') {
+                if (!state[currentUnitId].mcqActiveQuestion && state[currentUnitId].mcqQueue.length > 0) {
+                    state[currentUnitId].mcqActiveQuestion = state[currentUnitId].mcqQueue[0];
+                }
+                renderMCQ();
+            }
+            else if (actId === 'long') renderLongAnswers();
+            else if (actId === 'maths') renderMaths();
+            else if (actId === 'report') updateDashboard();
+        }
+
+        function updateDashboard() {
+            const data = APP_DATA[currentUnitId];
+            const s = state[currentUnitId];
+            
+            document.getElementById('dash-bg-icon').className = `ph-fill ${data.icon} text-[15rem]`;
+            
+            let currentTotal = 0;
+            let possibleTotal = 0;
+            let fbText = "Complete all activities in this unit to uncover your fate.";
+
+            if (data.type === 'standard') {
+                document.getElementById('dash-standard-stats').classList.remove('hidden');
+                document.getElementById('dash-maths-stats').classList.add('hidden');
+                
+                document.getElementById('dash-score-match').innerText = s.matchCompleted.length;
+                document.getElementById('dash-total-match').innerText = `/ ${data.match.length}`;
+                currentTotal += s.matchCompleted.length;
+                possibleTotal += data.match.length;
+                
+                document.getElementById('dash-score-mcq').innerText = s.mcqCorrect;
+                document.getElementById('dash-total-mcq').innerText = `/ ${s.mcqTotal}`;
+                currentTotal += s.mcqCorrect;
+                possibleTotal += s.mcqTotal;
+                
+                let longCurrent = 0;
+                let longMax = 0;
+                data.long.forEach((l, i) => {
+                    longCurrent += (s.longScores[i] || 0);
+                    longMax += l.maxMarks;
+                });
+                document.getElementById('dash-score-long').innerText = longCurrent;
+                document.getElementById('dash-total-long').innerText = `/ ${longMax}`;
+                currentTotal += longCurrent;
+                possibleTotal += longMax;
+                
+            } else {
+                document.getElementById('dash-standard-stats').classList.add('hidden');
+                document.getElementById('dash-maths-stats').classList.remove('hidden');
+                
+                document.getElementById('dash-score-maths').innerText = s.correct;
+                currentTotal = s.correct;
+                possibleTotal = data.questions.length;
+            }
+
+            const percent = Math.round((currentTotal / possibleTotal) * 100) || 0;
+            document.getElementById('dash-percentage').innerText = `${percent}%`;
+
+            if (percent >= 80) fbText = "Masterful! You are fully prepared for this unit.";
+            else if (percent >= 60) fbText = "Solid effort. Review your weak spots to secure top grades.";
+            else if (percent > 0) fbText = "Keep training. Repetition builds lasting knowledge.";
+            document.getElementById('dash-feedback').innerText = fbText;
+        }
+
+        /** 
+         * ==========================================
+         * MIX & MATCH LOGIC
+         * ==========================================
+         */
+        function resetMatch() {
+            const data = APP_DATA[currentUnitId];
+            const s = state[currentUnitId];
+            s.matchCompleted = [];
+            s.matchBatchIndex = 0;
+            s.matchQs = shuffleArray([...data.match].map((m,i)=>({t:m.q, i})));
+            s.matchAs = shuffleArray([...data.match].map((m,i)=>({t:m.a, i})));
+            s.matchSelQ = null;
+            s.matchSelA = null;
+            renderMatch();
+            showToast("Terminology Match Reset", "ph-arrows-clockwise");
+        }
+
+        function renderMatch() {
+            const data = APP_DATA[currentUnitId];
+            const s = state[currentUnitId];
+
+            document.getElementById('match-total').innerText = data.match.length;
+            document.getElementById('match-score').innerText = s.matchCompleted.length;
+            document.getElementById('match-batch-label').innerText = s.matchBatchIndex + 1;
+
+            if (s.matchCompleted.length === data.match.length) {
+                document.getElementById('match-grid').classList.add('hidden');
+                document.getElementById('match-complete').classList.remove('hidden');
+                return;
+            } else {
+                document.getElementById('match-grid').classList.remove('hidden');
+                document.getElementById('match-complete').classList.add('hidden');
+            }
+
+            const qCont = document.getElementById('match-questions');
+            const aCont = document.getElementById('match-answers');
+            qCont.innerHTML = ''; aCont.innerHTML = '';
+
+            // Render current batch (8 items)
+            const startIdx = s.matchBatchIndex * 8;
+            const endIdx = startIdx + 8;
+            
+            const currentQs = s.matchQs.filter(item => item.i >= startIdx && item.i < endIdx);
+            const currentAs = s.matchAs.filter(item => item.i >= startIdx && item.i < endIdx);
+
+            currentQs.forEach(item => {
+                if(s.matchCompleted.includes(item.i)) return;
+                const isSel = s.matchSelQ === item.i;
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl shadow-sm border-2 transition-all font-semibold ${isSel ? 'bg-emerald-50 border-emerald-500 scale-[1.02] text-emerald-700' : 'bg-white border-slate-200 hover:border-emerald-300 text-slate-700 hover:shadow-md'}`;
+                btn.innerText = item.t;
+                btn.onclick = () => handleMatchSelect('q', item.i, btn);
+                btn.id = `match-q-${item.i}`;
+                qCont.appendChild(btn);
+            });
+
+            currentAs.forEach(item => {
+                if(s.matchCompleted.includes(item.i)) return;
+                const isSel = s.matchSelA === item.i;
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl shadow-sm border-2 transition-all font-medium ${isSel ? 'bg-blue-50 border-blue-500 scale-[1.02] text-blue-700' : 'bg-white border-slate-200 hover:border-blue-300 text-slate-600 hover:shadow-md'}`;
+                btn.innerText = item.t;
+                btn.onclick = () => handleMatchSelect('a', item.i, btn);
+                btn.id = `match-a-${item.i}`;
+                aCont.appendChild(btn);
+            });
+        }
+
+        function handleMatchSelect(type, idx, btn) {
+            const s = state[currentUnitId];
+            if (type === 'q') s.matchSelQ = s.matchSelQ === idx ? null : idx;
+            else s.matchSelA = s.matchSelA === idx ? null : idx;
+            
+            renderMatch(); 
+
+            if (s.matchSelQ !== null && s.matchSelA !== null) {
+                if (s.matchSelQ === s.matchSelA) {
+                    s.matchCompleted.push(s.matchSelQ);
+                    s.matchSelQ = null; s.matchSelA = null;
+                    updateStreakUI(true);
+                    
+                    // Check if batch is completed
+                    const startIdx = s.matchBatchIndex * 8;
+                    const batchCompletedCount = s.matchCompleted.filter(id => id >= startIdx && id < startIdx + 8).length;
+                    
+                    if (batchCompletedCount === 8 && s.matchBatchIndex === 0 && APP_DATA[currentUnitId].match.length > 8) {
+                        setTimeout(() => {
+                            s.matchBatchIndex = 1;
+                            renderMatch();
+                        }, 600);
+                    } else if (s.matchCompleted.length === APP_DATA[currentUnitId].match.length) {
+                        setTimeout(() => {
+                            triggerLockedInOverlay();
+                            renderMatch();
+                        }, 600);
+                    } else {
+                        setTimeout(() => renderMatch(), 300);
+                    }
+                } else {
+                    const qBtn = document.getElementById(`match-q-${s.matchSelQ}`);
+                    const aBtn = document.getElementById(`match-a-${s.matchSelA}`);
+                    if(qBtn) qBtn.classList.add('animate-shake', 'bg-red-50', 'border-red-400', 'text-red-700');
+                    if(aBtn) aBtn.classList.add('animate-shake', 'bg-red-50', 'border-red-400', 'text-red-700');
+                    updateStreakUI(false);
+                    setTimeout(() => {
+                        s.matchSelQ = null; s.matchSelA = null;
+                        renderMatch();
+                    }, 500);
+                }
+            }
+        }
+
+        /** 
+         * ==========================================
+         * MCQ LOGIC
+         * ==========================================
+         */
+        function startMCQRetry() {
+            const s = state[currentUnitId];
+            // Re-shuffle both the retry questions and their options so they can't memorize the button position
+            s.mcqQueue = shuffleArray([...s.mcqRetryQueue]).map(q => {
+                const correctOptionText = q.options[q.ans];
+                const shuffledOptions = shuffleArray([...q.options]);
+                return { ...q, options: shuffledOptions, ans: shuffledOptions.indexOf(correctOptionText) };
+            });
+            s.mcqRetryQueue = [];
+            s.mcqActiveQuestion = s.mcqQueue[0];
+            renderMCQ();
+        }
+
+        function renderMCQ() {
+            const s = state[currentUnitId];
+            const q = s.mcqActiveQuestion;
+
+            document.getElementById('mcq-progress').innerText = `${s.mcqCorrect} / ${s.mcqTotal}`;
+
+            if (!q) {
+                document.getElementById('mcq-container').classList.add('hidden');
+                if (s.mcqRetryQueue.length > 0) {
+                    document.getElementById('mcq-retry-screen').classList.remove('hidden');
+                    document.getElementById('mcq-complete').classList.add('hidden');
+                    document.getElementById('mcq-retry-count').innerText = s.mcqRetryQueue.length;
+                } else {
+                    document.getElementById('mcq-retry-screen').classList.add('hidden');
+                    document.getElementById('mcq-complete').classList.remove('hidden');
+                }
+                return;
+            }
+
+            document.getElementById('mcq-container').classList.remove('hidden');
+            document.getElementById('mcq-complete').classList.add('hidden');
+            document.getElementById('mcq-retry-screen').classList.add('hidden');
+
+            document.getElementById('mcq-question').innerText = q.q;
+            const optionsContainer = document.getElementById('mcq-options');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border border-slate-600 transition-all font-medium text-lg bg-slate-700 hover:border-blue-400 hover:bg-slate-600 text-slate-200 shadow-sm`;
+                btn.innerText = opt;
+                btn.onclick = () => handleMCQSelect(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function handleMCQSelect(selIdx, btn) {
+            const s = state[currentUnitId];
+            const q = s.mcqActiveQuestion;
+            const isCorrect = selIdx === q.ans;
+            const allBtns = document.getElementById('mcq-options').children;
+
+            for(let i=0; i<allBtns.length; i++) {
+                allBtns[i].className = "w-full text-left p-4 rounded-xl border font-medium text-lg bg-slate-800 border-slate-700 text-slate-500 opacity-50 pointer-events-none";
+                if(i === selIdx) {
+                    if(isCorrect) allBtns[i].className = "w-full text-left p-4 rounded-xl border font-medium text-lg bg-emerald-900/30 border-emerald-500 text-emerald-400 pointer-events-none shadow-sm";
+                    else allBtns[i].className = "w-full text-left p-4 rounded-xl border font-medium text-lg bg-red-900/30 border-red-500 text-red-400 pointer-events-none animate-shake shadow-sm";
+                }
+                if(i === q.ans && !isCorrect) {
+                     allBtns[i].className = "w-full text-left p-4 rounded-xl border font-medium text-lg border-emerald-500/50 bg-slate-800 text-slate-300 border-dashed pointer-events-none";
+                }
+            }
+
+            s.mcqQueue.shift(); 
+            
+            if (isCorrect) {
+                s.mcqCorrect++;
+                updateStreakUI(true);
+                
+                if (s.mcqCorrect === s.mcqTotal && s.mcqQueue.length === 0) {
+                    setTimeout(() => triggerLockedInOverlay(), 500);
+                }
+            } else {
+                s.mcqRetryQueue.push(q);
+                updateStreakUI(false);
+            }
+
+            setTimeout(() => {
+                s.mcqActiveQuestion = s.mcqQueue.length > 0 ? s.mcqQueue[0] : null;
+                renderMCQ();
+            }, 1200);
+        }
+
+        /** 
+         * ==========================================
+         * LONG ANSWER LOGIC
+         * ==========================================
+         */
+        function renderLongAnswers() {
+            const data = APP_DATA[currentUnitId];
+            const s = state[currentUnitId];
+            const list = document.getElementById('long-list');
+            list.innerHTML = '';
+            
+            const index = s.longActiveIdx;
+            const item = data.long[index];
+            const hasMark = s.longScores[index] !== undefined;
+            
+            const div = document.createElement('div');
+            div.className = "bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 mb-6 animate-fade-in";
+            
+            let html = `
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h4 class="font-bold text-slate-500 uppercase tracking-wider text-sm">Question ${index + 1} of ${data.long.length}</h4>
+                    <div class="flex gap-1">
+                        ${data.long.map((_, i) => `<div class="w-3 h-3 rounded-full ${i === index ? 'bg-amber-500 shadow-sm' : (s.longScores[i] !== undefined ? 'bg-emerald-400' : 'bg-slate-200')}"></div>`).join('')}
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <h4 class="font-bold text-lg text-slate-800 leading-relaxed">${item.q}</h4>
+                </div>
+            `;
+
+            if (!hasMark) {
+                const savedText = s.longAnswersText[index] || '';
+                html += `
+                    <div class="relative mt-2">
+                        <textarea id="long-input-${index}" placeholder="Type or dictate your answer here..." class="w-full h-40 p-4 border-2 rounded-xl outline-none resize-none transition-colors border-slate-200 focus:border-amber-400 bg-slate-50 text-slate-700 text-base placeholder-slate-400">${savedText}</textarea>
+                        <button id="dictate-btn-${index}" onclick="toggleDictation(${index})" class="absolute bottom-4 right-4 p-3 rounded-full shadow-md transition-all bg-white text-slate-500 hover:text-amber-500 border border-slate-200" title="Dictate Answer">
+                            <i class="ph-fill ph-microphone text-xl"></i>
+                        </button>
+                    </div>
+                    <button onclick="submitLong(${index})" class="mt-6 w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2 text-lg">
+                        <i class="ph-bold ph-check-square-offset"></i> Submit & Reveal Perfect Answer
+                    </button>
+                `;
+            } else {
+                const userText = s.longAnswersText[index] || 'No answer provided.';
+                html += `
+                    <div class="bg-slate-50 p-5 rounded-xl mb-4 border border-slate-200">
+                        <div class="font-bold text-slate-500 mb-2 uppercase tracking-wider text-xs flex items-center gap-2">
+                            <i class="ph-fill ph-user text-lg"></i> Your Answer:
+                        </div>
+                        <div class="text-slate-700 whitespace-pre-line font-medium leading-relaxed">${userText}</div>
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-xl mb-6 border border-blue-200 shadow-inner">
+                        <div class="font-bold text-blue-700 mb-3 uppercase tracking-wider text-xs flex items-center gap-2">
+                            <i class="ph-fill ph-star text-lg"></i> Perfect Model Answer:
+                        </div>
+                        <div class="text-slate-700 whitespace-pre-line font-medium leading-relaxed">${item.model}</div>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row items-center justify-between bg-white p-5 rounded-xl border border-slate-200 shadow-sm mb-6">
+                        <div class="mb-4 md:mb-0 text-center md:text-left">
+                            <span class="font-bold text-slate-800 block text-lg">Assess Your Answer</span>
+                            <span class="text-sm text-slate-500 font-medium">Read the model above. How many marks did you achieve?</span>
+                        </div>
+                        <div class="flex gap-2 flex-wrap justify-center">
+                            ${Array.from({length: item.maxMarks + 1}, (_, m) => `
+                                <button onclick="setLongScore(${index},${m})" class="w-12 h-12 rounded-xl font-bold text-lg transition-all shadow-sm ${s.longScores[index] === m ? 'bg-amber-500 text-white border-2 border-amber-600 scale-110 shadow-md' : 'bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 hover:text-amber-600'}">
+                                    ${m}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                if (index < data.long.length - 1) {
+                    html += `
+                        <button onclick="nextLongQuestion()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2 text-lg">
+                            Next Question <i class="ph-bold ph-arrow-right"></i>
+                        </button>
+                    `;
+                } else {
+                    html += `
+                        <button onclick="switchActivity('report')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2 text-lg">
+                            <i class="ph-bold ph-chart-bar"></i> View Dashboard
+                        </button>
+                    `;
+                }
+            }
+            div.innerHTML = html;
+            list.appendChild(div);
+        }
+
+        function nextLongQuestion() {
+            const s = state[currentUnitId];
+            s.longActiveIdx++;
+            renderLongAnswers();
+        }
+
+        function toggleDictation(idx) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                showToast("Speech dictation is not supported in your browser.", "ph-warning");
+                return;
+            }
+
+            const btn = document.getElementById(`dictate-btn-${idx}`);
+            const input = document.getElementById(`long-input-${idx}`);
+
+            if (activeDictationId === idx && dictationRecognition) {
+                dictationRecognition.stop();
+                return;
+            }
+
+            if (dictationRecognition) dictationRecognition.stop();
+
+            dictationRecognition = new SpeechRecognition();
+            dictationRecognition.continuous = false;
+            dictationRecognition.interimResults = false;
+            dictationRecognition.lang = 'en-GB';
+
+            dictationRecognition.onstart = () => {
+                activeDictationId = idx;
+                btn.classList.add('animate-record'); 
+                showToast("Listening...", "ph-microphone");
+            };
+
+            dictationRecognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                input.value = input.value ? input.value + " " + transcript : transcript;
+                // Auto-save input as user speaks
+                state[currentUnitId].longAnswersText[idx] = input.value;
+            };
+
+            dictationRecognition.onerror = (event) => {
+                showToast(`Audio Error: ${event.error}`, "ph-warning");
+            };
+
+            dictationRecognition.onend = () => {
+                activeDictationId = null;
+                btn.classList.remove('animate-record');
+            };
+
+            dictationRecognition.start();
+        }
+
+        function submitLong(idx) {
+            const input = document.getElementById(`long-input-${idx}`);
+            const text = input.value.trim();
+            if (text.length < 5) {
+                showToast("Please provide a longer answer before marking.", "ph-warning-circle");
+                return;
+            }
+            state[currentUnitId].longAnswersText[idx] = text;
+            state[currentUnitId].longScores[idx] = 0; 
+            renderLongAnswers();
+        }
+
+        function setLongScore(idx, score) {
+            state[currentUnitId].longScores[idx] = score;
+            renderLongAnswers(); 
+        }
+
+        /** 
+         * ==========================================
+         * MATHS SKILLS LOGIC
+         * ==========================================
+         */
+        function renderMaths() {
+            const data = APP_DATA[currentUnitId];
+            const s = state[currentUnitId];
+            const list = document.getElementById('maths-list');
+            list.innerHTML = '';
+            
+            document.getElementById('maths-score').nextSibling.textContent = ` / ${data.questions.length}`;
+            document.getElementById('maths-score').innerText = s.correct;
+
+            data.questions.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = "bg-slate-50 p-5 rounded-xl border border-slate-200 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center";
+                
+                let html = `
+                    <div class="flex-1">
+                        <span class="font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded text-sm mr-2 border border-blue-200">Q${index + 1}</span>
+                        <span class="font-semibold text-slate-700">${item.q}</span>
+                        <div class="text-sm font-medium text-amber-600 bg-amber-50 border border-amber-200 p-2 rounded-lg mt-3 flex items-start gap-2">
+                            <i class="ph-bold ph-lightbulb mt-0.5"></i> <span>${item.hint}</span>
+                        </div>
+                    </div>
+                `;
+
+                if (!s.submitted[index]) {
+                    html += `
+                        <div class="w-full md:w-auto shrink-0 flex flex-row items-center gap-2 mt-3 md:mt-0">
+                            <input type="number" step="any" id="maths-input-${index}" placeholder="Answer" oninput="state['${currentUnitId}'].answers[${index}] = this.value" value="${s.answers[index] || ''}" class="w-full md:w-32 p-3 border-2 rounded-lg text-center font-bold outline-none border-slate-300 focus:border-blue-500 bg-white transition-colors">
+                            <button onclick="submitMaths(${index})" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-5 rounded-lg shadow-sm transition-colors whitespace-nowrap">
+                                Check
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    const uAns = s.answers[index] || '';
+                    const isCorrect = uAns.trim() === item.a;
+                    
+                    html += `
+                        <div class="w-full md:w-80 shrink-0 flex flex-col gap-2 mt-3 md:mt-0">
+                            <div class="flex items-center gap-2 w-full">
+                                <div class="w-full p-3 border-2 rounded-lg text-center font-bold ${isCorrect ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-red-500 bg-red-50 text-red-700'}">
+                                    ${uAns || '-'}
+                                </div>
+                                <i class="ph-fill ${isCorrect ? 'ph-check-circle text-emerald-500' : 'ph-x-circle text-red-500'} text-3xl shrink-0"></i>
+                            </div>
+                            <div class="text-xs bg-white p-3 rounded border border-slate-200 text-slate-600 font-medium whitespace-pre-line shadow-inner">
+                                <span class="font-bold text-blue-600 block mb-1">Correct Answer: ${item.a}</span>
+                                <span class="font-bold text-slate-700 block mb-1">Working:</span>${item.working}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                div.innerHTML = html;
+                list.appendChild(div);
+            });
+        }
+
+        function submitMaths(idx) {
+            const data = APP_DATA[currentUnitId];
+            const s = state[currentUnitId];
+            
+            const input = document.getElementById(`maths-input-${idx}`);
+            if (input) {
+                s.answers[idx] = input.value;
+            }
+            
+            s.submitted[idx] = true;
+            
+            const isCorrect = (s.answers[idx] || '').trim() === data.questions[idx].a;
+            if (isCorrect) {
+                s.correct++;
+                updateStreakUI(true);
+            } else {
+                updateStreakUI(false);
+            }
+            
+            renderMaths();
+            
+            // Check if all submitted
+            const allSubmitted = data.questions.every((_, i) => s.submitted[i]);
+            if (allSubmitted) {
+                if (s.correct === data.questions.length) {
+                    showToast("Perfect calculations!", "ph-check-circle");
+                    triggerLockedInOverlay();
+                } else {
+                    showToast(`You scored ${s.correct}/${data.questions.length}. Review the workings.`, "ph-info");
+                }
+            }
+        }
+
+        /** 
+         * ==========================================
+         * SCORECARD MODALS
+         * ==========================================
+         */
+        function handleReportClick() {
+            document.getElementById('name-modal').classList.remove('hidden');
+            document.getElementById('name-modal').classList.add('flex');
+            document.getElementById('student-name-input').focus();
+        }
+
+        function closeNameModal() {
+            document.getElementById('name-modal').classList.add('hidden');
+            document.getElementById('name-modal').classList.remove('flex');
+        }
+
+        function saveNameAndShowScorecard() {
+            const input = document.getElementById('student-name-input');
+            const name = input.value.trim();
+            if (name) {
+                closeNameModal();
+                generateScorecard(name);
+            } else {
+                input.classList.add('border-red-500', 'animate-shake', 'bg-red-50');
+                setTimeout(() => input.classList.remove('animate-shake', 'border-red-500', 'bg-red-50'), 400);
+            }
+        }
+
+        function generateScorecard(name) {
+            const data = APP_DATA[currentUnitId];
+            const s = state[currentUnitId];
+            
+            document.getElementById('sc-name').innerText = name;
+            document.getElementById('sc-unit').innerText = data.title;
+            
+            let currentTotal = 0;
+            let possibleTotal = 0;
+
+            if (data.type === 'standard') {
+                document.getElementById('sc-standard-stats').classList.remove('hidden');
+                document.getElementById('sc-maths-stats').classList.add('hidden');
+                
+                document.getElementById('sc-match').innerText = s.matchCompleted.length;
+                document.getElementById('sc-total-match-display').innerText = `/ ${data.match.length}`;
+                
+                document.getElementById('sc-mcq').innerText = s.mcqCorrect;
+                document.getElementById('sc-total-mcq').innerText = s.mcqTotal;
+                
+                currentTotal += s.matchCompleted.length + s.mcqCorrect;
+                possibleTotal += data.match.length + s.mcqTotal;
+                
+                let longCurrent = 0;
+                let longMax = 0;
+                data.long.forEach((l, i) => {
+                    longCurrent += (s.longScores[i] || 0);
+                    longMax += l.maxMarks;
+                });
+                document.getElementById('sc-long').innerText = longCurrent;
+                document.getElementById('sc-total-long').innerText = longMax;
+                
+                currentTotal += longCurrent;
+                possibleTotal += longMax;
+            } else {
+                document.getElementById('sc-standard-stats').classList.add('hidden');
+                document.getElementById('sc-maths-stats').classList.remove('hidden');
+                
+                document.getElementById('sc-maths').innerText = s.correct;
+                currentTotal = s.correct;
+                possibleTotal = data.questions.length;
+            }
+
+            const percent = Math.round((currentTotal / possibleTotal) * 100) || 0;
+            document.getElementById('sc-total').innerText = currentTotal;
+            document.getElementById('sc-max').innerText = possibleTotal;
+            document.getElementById('sc-percent').innerText = percent;
+            
+            const now = new Date();
+            document.getElementById('sc-timestamp').innerText = `${now.toLocaleDateString()} at ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+            document.getElementById('scorecard-modal').classList.remove('hidden');
+            document.getElementById('scorecard-modal').classList.add('flex');
+        }
+
+        function closeScorecard() {
+            document.getElementById('scorecard-modal').classList.add('hidden');
+            document.getElementById('scorecard-modal').classList.remove('flex');
+        }
+
+        // Initialize App
+        window.onload = () => {
+            initState();
+        };
+    </script>
+</body>
+</html>
